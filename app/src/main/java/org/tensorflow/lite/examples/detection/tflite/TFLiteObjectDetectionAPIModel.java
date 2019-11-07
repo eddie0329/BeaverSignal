@@ -15,11 +15,13 @@ limitations under the License.
 
 package org.tensorflow.lite.examples.detection.tflite;
 
+import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
 import android.os.Trace;
+import android.os.Vibrator;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -49,7 +51,9 @@ public class TFLiteObjectDetectionAPIModel implements Classifier {
   //if 0 -> debug mode off
   public int debug = 1;
 
+
   public MicActivity mic = new MicActivity();
+
 
   private static final Logger LOGGER = new Logger();
 
@@ -230,12 +234,7 @@ public class TFLiteObjectDetectionAPIModel implements Classifier {
       int labelOffset = 1;
 
 
-//      recognitions.add(
-//          new Recognition(
-//              "" + i,
-//                  labels.get((int) outputClasses[0][i]),
-//              outputScores[0][i],
-//              detection));
+
 
 
 
@@ -271,6 +270,10 @@ public class TFLiteObjectDetectionAPIModel implements Classifier {
                         labels.get((int) outputClasses[0][i]),
                         outputScores[0][i],
                         detection));
+
+        if(debug == 1) {
+          Log.d("myapp", "Score: " + outputScores[0][i]);
+        }
       } // end of if
 
 

@@ -16,6 +16,7 @@
 
 package org.tensorflow.lite.examples.detection;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -28,6 +29,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
@@ -50,6 +52,10 @@ import org.tensorflow.lite.examples.detection.tracking.MultiBoxTracker;
  */
 public class DetectorActivity extends CameraActivity implements OnImageAvailableListener {
   private static final Logger LOGGER = new Logger();
+
+  //1 -> debug mode on
+  //0 -> debug mode off
+  public int debug = 1;
 
   // Configuration values for the prepackaged SSD model.
   private static final int TF_OD_API_INPUT_SIZE = 300;
@@ -197,6 +203,10 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 break;
             }
 
+            if(debug == 1) {
+
+            }
+
             final List<Classifier.Recognition> mappedRecognitions =
                 new LinkedList<Classifier.Recognition>();
 
@@ -210,11 +220,10 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 result.setLocation(location);
                 Log.d("myapp", result.getLocation()+"");
                 mappedRecognitions.add(result);
+
+                vibrator.vibrate(200);
               }
             }
-//
-//            Log.d("myapp", cropToFrameTransform + "");
-//            Log.d("myapp", "mappedRecognitions: " + mappedRecognitions.size());
 //
 
 
