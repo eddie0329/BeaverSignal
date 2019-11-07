@@ -44,6 +44,13 @@ import org.tensorflow.lite.examples.detection.env.Logger;
  * github.com/tensorflow/models/tree/master/research/object_detection
  */
 public class TFLiteObjectDetectionAPIModel implements Classifier {
+
+  //if 1 -> debug mode on
+  //if 0 -> debug mode off
+  public int debug = 1;
+
+  public MicActivity mic = new MicActivity();
+
   private static final Logger LOGGER = new Logger();
 
   // Only return this many results.
@@ -209,8 +216,6 @@ public class TFLiteObjectDetectionAPIModel implements Classifier {
 
     ArrayList temp = new ArrayList();
 
-    //target name
-    String target = "tv";
 
     for (int i = 0; i < 1; ++i) {
       final RectF detection =
@@ -224,34 +229,51 @@ public class TFLiteObjectDetectionAPIModel implements Classifier {
       // while outputClasses correspond to class index from 0 to number_of_classes
       int labelOffset = 1;
 
-      Log.d("myapp", "label: " + outputClasses[0][i]);
-//
-      recognitions.add(
-          new Recognition(
-              "" + i,
-//              labels.get((int) outputClasses[0][i] + labelOffset),
-//                  "coka cola",
-                  labels.get((int) outputClasses[0][i]),
-              outputScores[0][i],
-              detection));
 
-      //searched label
-//      String searchedLabel = labels.get((int)  outputClasses[0][i] + labelOffset);
-//
-//
-//      // find target image
-//      if(searchedLabel.equals(target)) {
-//        Log.d("myapp", "labels123: " + searchedLabel);
-//        recognitions.add(
-//                new Recognition(
-//                        "" + i,
-//                        labels.get((int) outputClasses[0][i] + labelOffset),
-//                        outputScores[0][i],
-//                        detection));
-//      }
+//      recognitions.add(
+//          new Recognition(
+//              "" + i,
+//                  labels.get((int) outputClasses[0][i]),
+//              outputScores[0][i],
+//              detection));
 
-//      temp.add(searchedLabel);
-//      Log.d("myapp", "dectection: " + detection);
+
+
+      if(debug == 1) {
+        Log.d("myapp", "mic's wantToSearchedLabel: " + mic.getWantToSearchedLabel());
+      }
+
+      String target = mic.getWantToSearchedLabel();
+
+      //get user's wanted object
+      switch (mic.getWantToSearchedLabel()) {
+        case "코카콜라": {
+          target = "coka cola";
+        }
+
+        default: {}
+
+      }
+
+      //trained label
+      String trainedLabel = labels.get((int)  outputClasses[0][i]);
+
+
+
+      // find target image
+      if(trainedLabel.equals(target)) {
+        if(debug == 1) {
+          Log.d("myapp", "labels123: " + trainedLabel);
+        }
+        recognitions.add(
+                new Recognition(
+                        "" + i,
+                        labels.get((int) outputClasses[0][i]),
+                        outputScores[0][i],
+                        detection));
+      } // end of if
+
+
     }
 
 
