@@ -2,6 +2,9 @@ package org.tensorflow.lite.examples.detection.tflite;
 
 import android.Manifest;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -29,13 +32,14 @@ import org.tensorflow.lite.examples.detection.DetectorActivity;
 import org.tensorflow.lite.examples.detection.R;
 
 import java.util.ArrayList;
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MicActivity extends AppCompatActivity {
     // if debug is 1 => enable debug mode
     // if debug is 0 => off debug mode
-    private int debug = 0;
+    private int debug = 1;
 
     public MicActivity() {
 
@@ -58,6 +62,8 @@ public class MicActivity extends AppCompatActivity {
 
     SpeechRecognizer mRecognizer;
 
+    MediaPlayer mp;
+
     //onCreate()
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,9 @@ public class MicActivity extends AppCompatActivity {
         }
 
 
+
+
+
         Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         i.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
@@ -88,6 +97,8 @@ public class MicActivity extends AppCompatActivity {
 
 
         micButton.setOnClickListener(v -> {
+            mp.stop();
+
             mRecognizer=SpeechRecognizer.createSpeechRecognizer(this);
             mRecognizer.setRecognitionListener(listener);
             mRecognizer.startListening(i);
@@ -98,9 +109,55 @@ public class MicActivity extends AppCompatActivity {
 
         });
 
+        ImageView refigButton = findViewById(R.id.refigButton);
+
+        refigButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setWantToSearchedLabel("냉장고");
+                mp.stop();
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.findrefrig);
+                mp.start();
+                new android.os.Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //go to detector activity
+                        Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
+                        startActivity(intent);
+                    }
+                }, 9500);
+            }
+        });
 
     } // end of onCreate()
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if( debug == 1) {
+            Log.d("myapp", "onStart()");
+        }
+
+        Thread threadOnStart = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(debug == 1) {
+                    Log.d("myapp", "thread on Start");
+                }
+
+                // media play at onStart()
+                // play to users : "찾고자 하는 음료명을 생각한 뒤 화면 정중앙을 눌러 주세요.
+                //                  버튼을 누른 뒤, 삡 소리 이후 찾고자 하는 음료 명만을 말해주세요"
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.onstartmsg);
+                mp.start();
+            }
+        });
+
+        threadOnStart.start();
+
+
+    } // end of onStart()
 
     private RecognitionListener listener = new RecognitionListener() {
         @Override
@@ -183,14 +240,76 @@ public class MicActivity extends AppCompatActivity {
 
             // wantToSearchedLabel is in trained set
             if(getWantToSearchedLabel().matches("코카콜라") == true) {
-                Log.d("myapp", "+코카콜라+");
+                if(debug == 1) {
+                    Log.d("myapp", "+코카콜라+");
+                }
 
-                //go to detector activity
-                Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
-                startActivity(intent);
-            } else {
-//               다시 말해 주세요.(음성으로 나와야 함)
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.findcoke);
+                mp.start();
 
+                new android.os.Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //go to detector activity
+                        Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
+                        startActivity(intent);
+                    }
+                }, 10000);
+            }
+            else if(getWantToSearchedLabel().matches("펩시") == true){
+                if(debug == 1) {
+                    Log.d("myapp", "+펩시+");
+                }
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.findpepsi);
+                mp.start();
+
+                new android.os.Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //go to detector activity
+                        Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
+                        startActivity(intent);
+                    }
+                }, 8500);
+            }
+            else if(getWantToSearchedLabel().matches("2%") == true){
+                if(debug == 1) {
+                    Log.d("myapp", "+2%+");
+                }
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.find2percent);
+                mp.start();
+
+                new android.os.Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //go to detector activity
+                        Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
+                        startActivity(intent);
+                    }
+                }, 8500);
+            }
+            else if(getWantToSearchedLabel().matches("게토레이") == true){
+                if(debug == 1) {
+                    Log.d("myapp", "+게토레이+");
+                }
+
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.findgatorade);
+                mp.start();
+
+                new android.os.Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //go to detector activity
+                        Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
+                        startActivity(intent);
+                    }
+                }, 9500);
+            }
+
+            else {
+//                play : 찾고자 하는 음료명은 제가 아직 몰라요
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.dontknow);
+                mp.start();
             }
         }
 
@@ -205,6 +324,12 @@ public class MicActivity extends AppCompatActivity {
         }
     };
 
-
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mp != null) {
+            mp.stop();
+            mp.release();
+        }
+    }
 }

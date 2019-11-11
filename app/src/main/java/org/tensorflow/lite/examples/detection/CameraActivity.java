@@ -46,6 +46,7 @@ import android.view.Surface;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -95,6 +96,7 @@ public abstract class CameraActivity extends AppCompatActivity
 
     vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 
+
     LOGGER.d("onCreate " + this);
     super.onCreate(null);
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -109,6 +111,15 @@ public abstract class CameraActivity extends AppCompatActivity
     } else {
       requestPermission();
     }
+
+    Button btnBack = findViewById(R.id.btnBack);
+
+    btnBack.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        finish();
+      }
+    });
 
     threadsTextView = findViewById(R.id.threads);
     plusImageView = findViewById(R.id.plus);

@@ -9,8 +9,23 @@
     tools:showIn="@layout/activity_mic">
 
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="#9EF1BA"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo" />
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -19,26 +34,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <!--        <Button-->
+        <!--            android:id="@+id/micButton"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:background="@drawable/micbutton"></Button>-->
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentTop="true"
-            android:background="@color/semi_transparent">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/logo"
-                />
-        </androidx.appcompat.widget.Toolbar>
+            android:layout_height="340dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="140dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/micButton"
+                android:layout_width="160dp"
+                android:layout_height="340dp"
+                android:layout_gravity="center"
+                android:background="@drawable/border_image"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/micimage"></androidx.appcompat.widget.AppCompatImageView>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/refigButton"
+                android:layout_width="160dp"
+                android:layout_height="340dp"
+                android:layout_gravity="center"
+                android:background="@drawable/border_image"
+                android:src="@drawable/refrigimage"></androidx.appcompat.widget.AppCompatImageView>
+
+        </LinearLayout>
 
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/micButton"
+
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/micimage"
             android:layout_gravity="center"
-            android:layout_marginTop="110dp"></androidx.appcompat.widget.AppCompatImageView>
+            android:layout_marginTop="85dp"
+            android:fontFamily="casual"
+            android:text="Created by 삼이일최"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="20sp"></TextView>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

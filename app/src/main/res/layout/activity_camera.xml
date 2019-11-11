@@ -15,10 +15,25 @@
 -->
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00000000">
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="555dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/micbutton"
+        android:fontFamily="casual"
+        android:text="Go Back"
+        android:textColor="#848383"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -43,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
+            android:layout_marginLeft="-30dp"
             android:background="@color/semi_transparent">
 
             <ImageView
@@ -53,8 +69,8 @@
         </androidx.appcompat.widget.Toolbar>
 
     </RelativeLayout>
-
-<!--    <include-->
+    <!--    <include-->
 <!--        android:id="@+id/bottom_sheet_layout"-->
 <!--        layout="@layout/layout_bottom_sheet" />-->
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

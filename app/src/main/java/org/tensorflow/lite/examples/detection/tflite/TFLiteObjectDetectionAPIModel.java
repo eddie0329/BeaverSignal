@@ -235,28 +235,37 @@ public class TFLiteObjectDetectionAPIModel implements Classifier {
 
 
 
-
-
-
       if(debug == 1) {
         Log.d("myapp", "mic's wantToSearchedLabel: " + mic.getWantToSearchedLabel());
       }
 
-      String target = mic.getWantToSearchedLabel();
+      String target = "";
 
       //get user's wanted object
-      switch (mic.getWantToSearchedLabel()) {
-        case "코카콜라": {
-          target = "coka cola";
-        }
+      if(mic.getWantToSearchedLabel().matches("코카콜라") ) {
+        target = "coka cola";
+      }
+      else if(mic.getWantToSearchedLabel().matches("2%")) {
+        target = "2%";
+      }
+      else if(mic.getWantToSearchedLabel().matches("펩시")) {
+        target = "pepsi";
+      }
+      else if(mic.getWantToSearchedLabel().matches("게토레이")) {
+        target = "gatorade";
+      }
+      else if(mic.getWantToSearchedLabel().matches("냉장고")) {
+        target = "refrigrator";
+      }
 
-        default: {}
 
+
+      if(debug == 1) {
+        Log.d("myapp", "target: " + target);
       }
 
       //trained label
       String trainedLabel = labels.get((int)  outputClasses[0][i]);
-
 
 
       // find target image
