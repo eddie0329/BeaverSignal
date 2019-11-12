@@ -82,7 +82,7 @@ public class MicActivity extends AppCompatActivity {
 
 
 
-
+        // for the recognition activitiy
         Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         i.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
@@ -95,10 +95,12 @@ public class MicActivity extends AppCompatActivity {
         // get btn in this context
         ImageView micButton = findViewById(R.id.micButton);
 
-
+        // micbutton add listner
         micButton.setOnClickListener(v -> {
+            // mp should be firstly stop when mp is still playing
             mp.stop();
 
+            //recognizer set-ups
             mRecognizer=SpeechRecognizer.createSpeechRecognizer(this);
             mRecognizer.setRecognitionListener(listener);
             mRecognizer.startListening(i);
@@ -109,9 +111,10 @@ public class MicActivity extends AppCompatActivity {
 
         });
 
-        ImageView refigButton = findViewById(R.id.refigButton);
+        // get refrigbtn
+        ImageView refrigButton = findViewById(R.id.refrigButton);
 
-        refigButton.setOnClickListener(new View.OnClickListener() {
+        refrigButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setWantToSearchedLabel("냉장고");
@@ -239,6 +242,7 @@ public class MicActivity extends AppCompatActivity {
             }
 
             // wantToSearchedLabel is in trained set
+            // current train set => "코카콜라", "2%", "펩시", "게토레이"
             if(getWantToSearchedLabel().matches("코카콜라") == true) {
                 if(debug == 1) {
                     Log.d("myapp", "+코카콜라+");
@@ -296,6 +300,8 @@ public class MicActivity extends AppCompatActivity {
                 mp = MediaPlayer.create(getApplicationContext(), R.raw.findgatorade);
                 mp.start();
 
+
+                // set timer
                 new android.os.Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -307,6 +313,7 @@ public class MicActivity extends AppCompatActivity {
             }
 
             else {
+                //if there are not label that were trained,
 //                play : 찾고자 하는 음료명은 제가 아직 몰라요
                 mp = MediaPlayer.create(getApplicationContext(), R.raw.dontknow);
                 mp.start();
