@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="340dp"
             android:layout_gravity="center"
-            android:layout_marginTop="140dp"
+            android:layout_marginTop="200dp"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -53,8 +53,8 @@
                 android:layout_height="340dp"
                 android:layout_gravity="center"
                 android:background="@drawable/border_image"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="20dp"
                 android:src="@drawable/micimage"></androidx.appcompat.widget.AppCompatImageView>
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="85dp"
+            android:layout_marginTop="100dp"
             android:fontFamily="casual"
             android:text="Created by 삼이일최"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"

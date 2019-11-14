@@ -39,7 +39,7 @@ import java.util.TimerTask;
 public class MicActivity extends AppCompatActivity {
     // if debug is 1 => enable debug mode
     // if debug is 0 => off debug mode
-    private int debug = 1;
+    private int debug = 0;
 
     public MicActivity() {
 
@@ -100,10 +100,21 @@ public class MicActivity extends AppCompatActivity {
             // mp should be firstly stop when mp is still playing
             mp.stop();
 
-            //recognizer set-ups
-            mRecognizer=SpeechRecognizer.createSpeechRecognizer(this);
-            mRecognizer.setRecognitionListener(listener);
-            mRecognizer.startListening(i);
+            // mic onclick listener
+            // play: "찾고자 하는 음료명만 말씀해주세요"
+            mp = MediaPlayer.create(getApplicationContext(), R.raw.msgsaywantbeaverage);
+            mp.start();
+
+            new android.os.Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //recognizer set-ups
+                    mRecognizer=SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
+                    mRecognizer.setRecognitionListener(listener);
+                    mRecognizer.startListening(i);
+                }
+            }, 3000);
+
 
             if(debug == 1) {
                 Log.d("myapp", "hello: " + getWantToSearchedLabel());
@@ -118,9 +129,12 @@ public class MicActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setWantToSearchedLabel("냉장고");
-                mp.stop();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.findrefrig);
-                mp.start();
+                if(mp != null) {
+                    mp.stop();
+                    mp = MediaPlayer.create(getApplicationContext(), R.raw.findrefrig);
+                    mp.start();
+                }
+
                 new android.os.Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -334,6 +348,20 @@ public class MicActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        if(mp != null) {
+            mp.stop();
+            mp.release();
+        }
+        if(mRecognizer != null) {
+            mRecognizer.cancel();
+            mRecognizer.destroy();
+        }
+    }
+    
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         if(mp != null) {
             mp.stop();
             mp.release();

@@ -2,3 +2,4 @@ coka cola
 pepsi
 2%
 gatorade
+fridge

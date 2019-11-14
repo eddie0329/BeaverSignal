@@ -49,7 +49,7 @@ public class TFLiteObjectDetectionAPIModel implements Classifier {
 
   //if 1 -> debug mode on
   //if 0 -> debug mode off
-  public int debug = 1;
+  public int debug = 0;
 
 
   public MicActivity mic = new MicActivity();
@@ -255,7 +255,7 @@ public class TFLiteObjectDetectionAPIModel implements Classifier {
         target = "gatorade";
       }
       else if(mic.getWantToSearchedLabel().matches("냉장고")) {
-        target = "refrigrator";
+        target = "fridge";
       }
 
 
